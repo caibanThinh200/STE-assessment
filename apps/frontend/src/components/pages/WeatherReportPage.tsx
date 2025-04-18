@@ -27,6 +27,7 @@ import { toast } from "react-toastify";
 
 export default function WeatherReportsPage() {
   const navigate = useNavigate();
+  
   const [weatherReports, setWeatherReports] = useState<WeatherReport[]>([]);
   const [selectedReports, setSelectedReports] = useState<string[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -35,13 +36,17 @@ export default function WeatherReportsPage() {
     direction: "ascending" | "descending";
   } | null>(null);
 
-  const debouncedFetchSuggestions = debounce(async (query: string) => {
+  const fetchReports = async (query: string) => {
     try {
       const reports = await fetchAllReports({ location: query });
       setWeatherReports(reports);
     } catch (error) {
       console.error("Failed to load reports:", error);
     }
+  };
+
+  const debouncedFetchSuggestions = debounce(async (query: string) => {
+    fetchReports(query);
   }, 300);
 
   useEffect(() => {
@@ -50,7 +55,7 @@ export default function WeatherReportsPage() {
 
   const deleteWeatherReport = (id: string) => {
     deleteReport(id).then(() => {
-      debouncedFetchSuggestions(searchTerm);
+      fetchReports(searchTerm);
       toast("Report deleted", { type: "warning" });
     });
   };
@@ -311,40 +316,14 @@ export default function WeatherReportsPage() {
                           <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                               <Button variant="ghost" size="icon">
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  strokeWidth="2"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  className="w-4 h-4"
-                                >
-                                  <circle cx="12" cy="12" r="1" />
-                                  <circle cx="12" cy="5" r="1" />
-                                  <circle cx="12" cy="19" r="1" />
-                                </svg>
+                                <Icon variant="threedot" />
                               </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
                               <DropdownMenuItem
                                 onClick={() => deleteWeatherReport(report._id)}
                               >
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  strokeWidth="2"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  className="w-4 h-4 mr-2"
-                                >
-                                  <path d="M3 6h18" />
-                                  <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
-                                  <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
-                                </svg>
+                                <Icon variant="trash" />
                                 Delete
                               </DropdownMenuItem>
                             </DropdownMenuContent>

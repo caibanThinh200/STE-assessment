@@ -8,6 +8,7 @@ import TrashIcon from "./trash";
 import CloseIcon from "./close";
 import DownloadIcon from "./download";
 import CheckIcon from "./check";
+import ThreedotIcon from "./threeDots";
 
 type IconName =
   | "clock"
@@ -18,7 +19,8 @@ type IconName =
   | "arrow"
   | "trash"
   | "download"
-  | "check";
+  | "check"
+  | "threedot";
 
 interface IconProps extends HTMLAttributes<SVGElement> {
   variant: IconName;
@@ -37,6 +39,7 @@ const Icon: React.FC<IconProps> = ({ variant, ...rest }) => {
     close: CloseIcon,
     download: DownloadIcon,
     check: CheckIcon,
+    threedot: ThreedotIcon,
   };
 
   const IconComponent = icons[variant];
