@@ -9,7 +9,8 @@
   "scripts": {
     "dev": "concurrently \"npm run dev --workspace=apps/frontend\" \"npm run start:dev --workspace=apps/backend\"",
     "build": "concurrently \"npm run build --workspace=apps/frontend\" \"npm run build --workspace=apps/backend\"",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "npm install --prefix apps/frontend && npm install --prefix apps/backend"
   },
   "packageManager": "npm@10.2.3",
   "author": "",

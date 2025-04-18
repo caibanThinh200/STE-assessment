@@ -66,7 +66,6 @@ function HomePage() {
     setGeoLoading(true);
     navigator.geolocation.getCurrentPosition(
       async (position) => {
-        console.log(position.coords);
         try {
           const { latitude, longitude } = position.coords;
           const data = await fetchWeatherByCoords(latitude, longitude);
@@ -111,7 +110,6 @@ function HomePage() {
   // Try to get user's location on first render
   useEffect(() => {
     handleGetCurrentLocation();
-    // If geolocation fails or is denied, we'll fall back to the empty state
   }, []);
 
   return (
