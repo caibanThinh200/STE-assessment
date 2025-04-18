@@ -1,0 +1,17 @@
+{
+  "name": "ste",
+  "version": "1.0.0",
+  "description": "Full Stack Application for Weather Report",
+  "workspaces": [
+    "apps/*"
+  ],
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run dev --workspace=apps/frontend\" \"npm run start:dev --workspace=apps/backend\"",
+    "build": "concurrently \"npm run build --workspace=apps/frontend\" \"npm run build --workspace=apps/backend\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "packageManager": "npm@10.2.3",
+  "author": "",
+  "license": "ISC"
+}
