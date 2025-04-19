@@ -49,7 +49,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     } else {
       setIsLoading(false);
     }
-  }, []);
+  }, [cookie?.access_token]);
 
   const loginUser = async (email: string, password: string) => {
     setIsLoading(true);

@@ -172,21 +172,24 @@ export default function ComparisonPage() {
                   </TableRow>
                   <TableRow>
                     <TableCell className="font-medium">Weather</TableCell>
-                    <TableCell className="flex items-center">
-                      <WeatherIcon
-                        code={report1.icon}
-                        className="size-8 mr-2"
-                      />
-                      {report1.description}
+                    <TableCell>
+                      <div className="flex items-center gap-2">
+                        <WeatherIcon
+                          code={report1.icon}
+                          className="size-8 mr-2"
+                        />
+                        {report1.description}
+                      </div>
                     </TableCell>
-                    <TableCell className="flex items-center">
-                      <WeatherIcon
-                        code={report2.icon}
-                        className="size-8 mr-2"
-                      />
-                      {report2.description}
+                    <TableCell>
+                      <div className="flex items-center gap-2">
+                        <WeatherIcon
+                          code={report2.icon}
+                          className="size-8 mr-2"
+                        />
+                        {report2.description}
+                      </div>
                     </TableCell>
-                    <TableCell>-</TableCell>
                   </TableRow>
                 </TableBody>
               </Table>

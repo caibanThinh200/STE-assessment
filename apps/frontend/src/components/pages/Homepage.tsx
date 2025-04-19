@@ -13,7 +13,7 @@ import { createReport } from "@/api/reports";
 import { useAuth } from "@/context/AuthContext";
 
 function HomePage() {
-  const { user } = useAuth();
+  const { user, isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -109,9 +109,17 @@ function HomePage() {
     );
   };
 
+  const fetchChangiAirport = async () => {
+    const changiLat = 1.3586;
+    const changiLong = 103.9899;
+    const data = await fetchWeatherByCoords(changiLat, changiLong);
+    setWeatherData(data);
+  };
+
   // Try to get user's location on first render
   useEffect(() => {
-    handleGetCurrentLocation();
+    fetchChangiAirport();
+    // handleGetCurrentLocation();
   }, []);
 
   return (
@@ -121,7 +129,7 @@ function HomePage() {
           <h1 className="text-2xl font-bold">
             {user?.name ? `Hi, ${user?.name}` : "Weather Report Generator"}
           </h1>
-          {user?._id && (
+          {isAuthenticated && (
             <Button variant="outline" onClick={() => navigate("/history")}>
               <Icon variant="clock" className="mr-2" />
               View Reports History
@@ -132,7 +140,7 @@ function HomePage() {
         <Card className="mb-6">
           <CardHeader className="flex justify-between items-center">
             <CardTitle>Generate Weather Report</CardTitle>
-            {user?._id ? (
+            {isAuthenticated ? (
               <Button
                 onClick={() => saveWeatherReport(weatherData as WeatherData)}
                 disabled={!weatherData || loading}
