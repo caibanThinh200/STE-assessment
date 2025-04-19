@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 import SearchBar from "../blocks/search-bar";
 import CurrentWeather from "../blocks/current-weather";
@@ -10,8 +10,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import Icon from "../icons";
 import { fetchWeatherByCoords, fetchWeatherData } from "@/api/weather";
 import { createReport } from "@/api/reports";
+import { useAuth } from "@/context/AuthContext";
 
 function HomePage() {
+  const { user } = useAuth();
   const navigate = useNavigate();
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -116,24 +118,34 @@ function HomePage() {
     <div className="min-h-screen bg-gray-100 p-4 md:p-8">
       <div className="max-w-6xl mx-auto">
         <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl font-bold">Weather Report Generator</h1>
-          <Button variant="outline" onClick={() => navigate("/history")}>
-            <Icon variant="clock" className="mr-2" />
-            View Reports History
-          </Button>
+          <h1 className="text-2xl font-bold">
+            {user?.name ? `Hi, ${user?.name}` : "Weather Report Generator"}
+          </h1>
+          {user?._id && (
+            <Button variant="outline" onClick={() => navigate("/history")}>
+              <Icon variant="clock" className="mr-2" />
+              View Reports History
+            </Button>
+          )}
         </div>
 
         <Card className="mb-6">
           <CardHeader className="flex justify-between items-center">
             <CardTitle>Generate Weather Report</CardTitle>
-            <Button
-              onClick={() => saveWeatherReport(weatherData as WeatherData)}
-              disabled={!weatherData || loading}
-              className="bg-black"
-            >
-              <Icon variant="download" />
-              Generate Report
-            </Button>
+            {user?._id ? (
+              <Button
+                onClick={() => saveWeatherReport(weatherData as WeatherData)}
+                disabled={!weatherData || loading}
+                className="bg-black"
+              >
+                <Icon variant="download" />
+                Generate Report
+              </Button>
+            ) : (
+              <Link className="text-blue-500" to={"/login"}>
+                Please login to report weather
+              </Link>
+            )}
           </CardHeader>
           <CardContent>
             <div className="space-y-4">

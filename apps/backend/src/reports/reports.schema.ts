@@ -1,33 +1,36 @@
-import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose"
-import type { Document } from "mongoose"
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Document, Types } from 'mongoose';
 
-export type ReportDocument = Report & Document
+export type ReportDocument = Report & Document;
 
 @Schema({ timestamps: true })
 export class Report {
   @Prop({ required: true })
-  location: string
+  location: string;
 
   @Prop({ required: true })
-  timestamp: number
+  timestamp: number;
 
   @Prop({ required: true })
-  temperature: number
+  temperature: number;
 
   @Prop({ required: true })
-  pressure: number
+  pressure: number;
 
   @Prop({ required: true })
-  humidity: number
+  humidity: number;
 
   @Prop({ required: true })
-  cloudCover: number
+  cloudCover: number;
 
   @Prop({ required: true })
-  description: string
+  description: string;
 
   @Prop({ required: true })
-  icon: string
+  icon: string;
+
+  @Prop({ type: Types.ObjectId, ref: 'User', required: true })
+  user: string;
 }
 
-export const ReportSchema = SchemaFactory.createForClass(Report)
+export const ReportSchema = SchemaFactory.createForClass(Report);
